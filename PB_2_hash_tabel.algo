@@ -1,0 +1,36 @@
+ALGORITHM PB1_hash_table
+CONST
+set1 : ARRAY_OF INTEGER[];
+set2 : ARRAY_OF INTEGER[];
+VAR
+htab : HASH_TABLE<INTEGER,INTEGER>
+i : INTEGER; 
+count : INTEGER := 0; 
+totalSum : INTEGER := 0; 
+set3 = ARRAY_OF INTEGER [];
+BEGIN
+    //Joining the two sets togethor
+    FOR i FROM 1 TO set1.length STEP 1  DO
+        set3[i] := set1[i];
+    END_FOR 
+    FOR i FROM 1 TO set2.length STEP 1  DO
+        set3[i+set1.length + 1] := set2[i];
+    END_FOR 
+
+    //Inserting all elements in HASH_TABLE with count of each number occurence
+    FOR i FROM 1 TO set3.length STEP 1  DO
+        IF (htab.lookup(set3[i])=TRUE) THEN
+            count := htab.get(set3[i])
+            htab.insert(set3[i],count +1)
+        ELSE
+            htab.insert(set3[i],1)
+        END_IF
+    END_FOR
+
+    //looping the hash table searching for numbers with more than 01 occurence
+    FOR i FROM 1 TO set3.length STEP step  DO
+        IF (htab.get(set3[i]) > 1) THEN
+        totalSum := totalSum + set3[i] * htab.get(set3[i]);
+    END_FOR
+    Write ("sum of all distinct elements from the set is", totalSum)
+END
